@@ -42,10 +42,15 @@ function App() {
       !specialization.trim() ||
       !experieceYears.trim() ||
       experieceYears <= 0 ||
-      !description.trim()
+      !description.trim() ||
+      !isUsernameValid ||
+      !isPasswordValid ||
+      !isDescriptionValid
     ) {
       alert("Tutti i campi devono essere compilati")
-    } console.log("Submit effettuato", {
+      return
+    }
+    console.log("Submit effettuato", {
       name,
       username,
       password,
