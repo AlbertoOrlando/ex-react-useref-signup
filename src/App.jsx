@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 
 const letters = "abcdefghijklmnopqrstuvwxyz"
 const numbers = "0123456789"
@@ -64,12 +64,27 @@ function App() {
       description
     });
 
+    useEffect(() => {
+      nameRef.current.focus()
+    }, [])
   }
+
+  const resetForm = (e) => {
+    e.preventDefault()
+    setUsername("")
+    setPassword("")
+    setDescription("")
+    nameRef.current.value = ""
+    specializationRef.current.value = ""
+    experieceYearsRef.current.value = ""
+    nameRef.current.focus()
+  }
+  const formRef = useRef()
 
   return (
     <>
       <h1>Welcome to My App</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={formRef}>
         <label>
           <p>Nome Completo</p>
           <input type="text" ref={nameRef} />
@@ -115,7 +130,12 @@ function App() {
           )}
         </label>
         <button type='submit'>Submit</button>
+        <button onClick={resetForm}>reset</button>
       </form>
+      <footer style={{ height: "100vh" }}></footer>
+      <button id='scrolltop' onClick={() => {
+        formRef.current.scrollIntoView({ behavior: "smooth" })
+      }}>torna su</button>
     </>
   )
 }
