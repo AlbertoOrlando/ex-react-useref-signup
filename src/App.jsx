@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 
 const letters = "abcdefghijklmnopqrstuvwxyz"
 const numbers = "0123456789"
@@ -6,12 +6,13 @@ const symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
 
 function App() {
 
-  const [name, setName] = useState("")
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
-  const [specialization, setSpecialization] = useState("")
-  const [experieceYears, setExperienceYars] = useState("")
   const [description, setDescription] = useState("")
+
+  const nameRef = useRef()
+  const specializationRef = useRef()
+  const experieceYearsRef = useRef()
 
   const isUsernameValid = useMemo(() => {
     const charts = username.split("").every(char =>
@@ -35,6 +36,10 @@ function App() {
 
   function handleSubmit(e) {
     e.preventDefault()
+
+    const name = nameRef.current.value
+    const specialization = specializationRef.current.value
+    const experieceYears = experieceYearsRef.current.value
     if (
       !name.trim() ||
       !username.trim() ||
@@ -67,7 +72,7 @@ function App() {
       <form onSubmit={handleSubmit}>
         <label>
           <p>Nome Completo</p>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <input type="text" ref={nameRef} />
         </label>
         <label>
           <p>Username</p>
@@ -89,7 +94,8 @@ function App() {
         </label>
         <label>
           <p>Specializzazione</p>
-          <select value={specialization} onChange={(e) => setSpecialization(e.target.value)}>
+          <select ref={specializationRef}>
+            <option value="">Seleziona</option>
             <option value="Full Stack">Full Stack</option>
             <option value="Frontend">Frontend</option>
             <option value="Backend">Backend</option>
@@ -97,7 +103,7 @@ function App() {
         </label>
         <label>
           <p>Anni di esperienza</p>
-          <input type="number" value={experieceYears} onChange={(e) => setExperienceYars(e.target.value)} />
+          <input type="number" ref={experieceYearsRef} />
         </label>
         <label>
           <p>Descrizione</p>
